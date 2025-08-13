@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'custom_navbar.dart';
 
-class DetailProduk extends StatelessWidget {
+class DetailProduk extends StatefulWidget {
   final String nama;
   final String gambar;
   final int harga;
@@ -15,11 +16,18 @@ class DetailProduk extends StatelessWidget {
   });
 
   @override
+  State<DetailProduk> createState() => _DetailProdukState();
+}
+
+class _DetailProdukState extends State<DetailProduk> {
+  int _selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-          nama,
+        title: Text(
+          widget.nama,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -29,13 +37,13 @@ class DetailProduk extends StatelessWidget {
         ),
         backgroundColor: const Color.fromARGB(255, 64, 141, 192),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white)
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Gambar Produk
             Card(
               elevation: 5,
               shape: RoundedRectangleBorder(
@@ -43,17 +51,15 @@ class DetailProduk extends StatelessWidget {
               ),
               clipBehavior: Clip.antiAlias,
               child: Image.network(
-                gambar,
+                widget.gambar,
                 height: 250,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
             const SizedBox(height: 20),
-
-            // Nama Produk
             Text(
-              nama,
+              widget.nama,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -61,10 +67,8 @@ class DetailProduk extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-
-            // Harga
             Text(
-              "Rp ${harga.toString()}",
+              "Rp ${widget.harga}",
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.red,
@@ -72,24 +76,26 @@ class DetailProduk extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-
-            // Detail Produk
             Text(
-              detail,
+              widget.detail,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16, height: 1.5),
             ),
-
             const SizedBox(height: 25),
-
-            // Tombol Beli
             ElevatedButton.icon(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Produk '$nama' dibeli!")),
+                  SnackBar(content: Text("Produk '${widget.nama}' dibeli!")),
                 );
               },
-              label: const Text("Beli Sekarang", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ,color: Color.fromARGB(255, 255, 255, 255)),),
+              label: const Text(
+                "Beli Sekarang",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 64, 141, 192),
                 padding: const EdgeInsets.symmetric(
@@ -104,6 +110,14 @@ class DetailProduk extends StatelessWidget {
             )
           ],
         ),
+      ),
+      bottomNavigationBar: MyNavbar(
+        selectedIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

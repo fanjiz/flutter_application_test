@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'riwayat_beli.dart';
 import 'detail.dart';
+import 'custom_navbar.dart';
 
 /// Halaman utama yang menampilkan daftar rekomendasi produk
 class Home extends StatefulWidget {
@@ -11,13 +13,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Home',
+        style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 64, 141, 192),
-        title: Text(widget.title),
-        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            color: Colors.white, // Icon riwayat
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RiwayatBeli(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -65,18 +88,13 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: const Color.fromARGB(255, 64, 141, 192),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
+      bottomNavigationBar: MyNavbar(
+        selectedIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }
@@ -129,7 +147,6 @@ class _HomeState extends State<Home> {
                 fontSize: 14,
               ),
             ),
-
             // Tombol detail
             SizedBox(
               width: double.infinity,

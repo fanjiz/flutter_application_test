@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // ini yang menghilangkan banner debug
       initialRoute: "/",
       routes: {
-        '/': (context) => const Home(title: 'Study Club'),
+        '/': (context) => const Home(title: 'SC-Commerce'),
         '/profile': (context) => const Profile(title: 'Profile'),
       },
 
