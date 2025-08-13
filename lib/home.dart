@@ -1,0 +1,163 @@
+import 'package:flutter/material.dart';
+import 'detail.dart';
+
+/// Halaman utama yang menampilkan daftar rekomendasi produk
+class Home extends StatefulWidget {
+  const Home({super.key, required this.title});
+  final String title;
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 64, 141, 192),
+        title: Text(widget.title),
+        centerTitle: true,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          const Text(
+            "Rekomendasi",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          GridView.count(
+            crossAxisCount: 2, // jumlah kolom
+            shrinkWrap: true, // biar muat di ListView
+            physics: const NeverScrollableScrollPhysics(),
+            childAspectRatio: 0.68, // proporsi tinggi-lebar item
+            children: [
+              listItem(
+                nama: 'Play Station 5',
+                harga: 13449000,
+                gambar:
+                    "https://images.tokopedia.net/img/cache/700/OJWluG/2022/3/21/9cc55e78-b91e-4b8b-a588-c4fa991fc89c.jpg?ect=4g",
+                detail: 'Konsol game generasi terbaru dengan grafis ultra HD',
+              ),
+              listItem(
+                nama: 'PSP',
+                harga: 300000,
+                gambar:
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi6fInb4EIPgCJo9h1KuKTdIjVG1ihamloew&s",
+                detail: 'Konsol portable klasik dari Sony',
+              ),
+              listItem(
+                nama: 'Nintendo Switch 2',
+                harga: 8775000,
+                gambar:
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkEGIbQ2AyXOSWG6FMylggWqgyIpv_wsTtqQ&s',
+                detail: 'Konsol hybrid dengan mode handheld dan dock',
+              ),
+              listItem(
+                nama: 'Nintendo DS',
+                harga: 20000,
+                gambar:
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Nintendo_DS_Lite_side.jpg/1200px-Nintendo_DS_Lite_side.jpg",
+                detail: 'Konsol portable layar ganda dengan stylus',
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: const Color.fromARGB(255, 64, 141, 192),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Membuat widget item produk
+  Widget listItem({
+    required String nama,
+    required int harga,
+    required String gambar,
+    required String detail,
+  }) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Gambar produk
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                gambar,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Nama produk
+            Text(
+              nama,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+
+            // Harga
+            Text(
+              "Rp ${harga.toString()}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 255, 105, 59),
+                fontSize: 14,
+              ),
+            ),
+
+            // Tombol detail
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 64, 141, 192),
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  textStyle: const TextStyle(fontSize: 12),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailProduk(
+                        nama: nama,
+                        gambar: gambar,
+                        harga: harga,
+                        detail: detail,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text("Lihat Detail", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255))),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
