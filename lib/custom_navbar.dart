@@ -14,8 +14,8 @@ class MyNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      elevation: 0, // hilangkan bayangan
-      backgroundColor: Colors.transparent, // benar-benar transparan
+      elevation: 0,
+      backgroundColor: Colors.transparent,
       currentIndex: selectedIndex,
       onTap: onTap,
       selectedItemColor: const Color.fromARGB(255, 64, 141, 192),

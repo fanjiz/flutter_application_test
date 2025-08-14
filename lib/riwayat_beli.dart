@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'custom_navbar.dart';
+import 'profile.dart';
 
 class RiwayatBeli extends StatefulWidget {
   const RiwayatBeli({super.key});
@@ -28,7 +29,28 @@ class _RiwayatBeliState extends State<RiwayatBeli> {
     },
   ];
 
-  int? _pressedIndex;
+  void _onNavbarTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Navigasi berdasarkan index yang dipilih
+    if (index == 1) {
+      // Navigasi ke halaman Profile
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Profile(title: 'Profile'), // Tambahkan required title parameter
+        ),
+      ).then((value) {
+        // Reset index ke 0 (Home) setelah kembali dari profile
+        setState(() {
+          _selectedIndex = 0;
+        });
+      });
+    }
+    // Jika index == 0 (Home), tidak perlu navigasi karena sudah di halaman Home
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,11 +143,7 @@ class _RiwayatBeliState extends State<RiwayatBeli> {
       ),
       bottomNavigationBar: MyNavbar(
         selectedIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTap: _onNavbarTap, // Gunakan method _onNavbarTap yang baru
       ),
     );
   }

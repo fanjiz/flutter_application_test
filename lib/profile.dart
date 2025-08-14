@@ -1,26 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(centerTitle: true),
-
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 64, 141, 192)),
-      ),
-      home: const Profile(title: 'Study Club',),
-    );
-  }
-}
+import 'custom_navbar.dart'; // ** TAMBAHAN BARU: Import custom navbar **
 
 class Profile extends StatefulWidget {
   const Profile({super.key, required this.title});
@@ -32,12 +11,25 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   int counter = 0;
+  int _selectedIndex = 1; // ** TAMBAHAN BARU: Set ke 1 karena Profile aktif **
 
   void incrementCounter() {
     setState(() {
-
       counter++;
     });
+  }
+
+  // ** TAMBAHAN BARU: Method untuk handle navigasi navbar **
+  void _onNavbarTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 0) {
+      // Navigasi ke halaman Home (kembali)
+      Navigator.pop(context);
+    }
+    // Jika index == 1 (Profile), tidak perlu navigasi karena sudah di halaman Profile
   }
 
   @override
@@ -58,13 +50,15 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 64, 141, 192),
         title: const Text(
-          "PROFILE",
+          "Profile",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white)
       ),
       body: Stack(
         children: [
@@ -206,18 +200,10 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: const Color.fromARGB(255, 64, 141, 192),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
+      // ** PERUBAHAN: Ganti dengan MyNavbar custom **
+      bottomNavigationBar: MyNavbar(
+        selectedIndex: _selectedIndex, // Profile tab aktif (index 1)
+        onTap: _onNavbarTap, // Gunakan method navigasi kita
       ),
     );
   }
