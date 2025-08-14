@@ -86,14 +86,29 @@ class _HomeState extends State<Home> {
 
     return BackdropScaffold(
       appBar: BackdropAppBar(
-        title: Text(
-          'Home - $categoryTerpilih',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
-          ),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              'Home',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '$categoryTerpilih - ${produkTerfilter.length} produk',
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                
+              ),
+            ),
+          ],
         ),
         backgroundColor: const Color.fromARGB(255, 64, 141, 192),
         actions: [
@@ -185,17 +200,6 @@ class _HomeState extends State<Home> {
               const Text(
                 "Rekomendasi",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              // ** PERUBAHAN: Ganti chip dengan keterangan jumlah produk **
-              Container(
-                child: Text(
-                  '${produkTerfilter.length} produk',
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
               ),
             ],
           ),
